@@ -1,0 +1,26 @@
+import { useState, useEffect } from "react";
+
+import io from "socket.io-client";
+
+import "../styles/globals.scss";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+function MyApp( { Component, pageProps } ){
+  const [ socket, setSocket ] = useState();
+  const [ totalUsers, setTotalUsers ] = useState( 0 );
+
+  useEffect( () => {
+    const socket_ = io( API_URL );
+
+    socket_.on( "totalUsers", setTotalUsers );
+
+    setSocket( socket_ );
+
+    return () => socket_.disconnect();
+  }, [] );
+
+  return socket ? <Component socket = {socket} totalUsers = {totalUsers} {...pageProps} /> : <></>;
+}
+
+export default MyApp;

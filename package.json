@@ -1,0 +1,29 @@
+{
+  "name": "mfcg",
+  "version": "0.0.1",
+  "description": "Merry fucking Christmas games",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevelopFroZo/mfcg-client.git"
+  },
+  "author": "na",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevelopFroZo/mfcg-client/issues"
+  },
+  "homepage": "https://github.com/DevelopFroZo/mfcg-client#readme",
+  "dependencies": {
+    "next": "^12.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-timer-hook": "^3.0.5",
+    "sass": "^1.44.0",
+    "socket.io-client": "^4.4.0"
+  }
+}
