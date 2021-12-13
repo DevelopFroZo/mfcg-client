@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 
 import { useTimer } from "react-timer-hook";
 
@@ -28,7 +27,6 @@ function Page( { socket, totalUsers } ){
 
   const onExpire = useCallback( () => {
     socket.emit( "end", state => {
-      console.log( state );
       setStatus( state.status );
     } );
   }, [] );
