@@ -1,0 +1,92 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+
+  &__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 120px;
+
+    height: 110px;
+
+    border-bottom: 1px solid #ADADAD;
+
+    background-color: #fff;
+  }
+
+  &__logo, &__menu{
+    width: 320px;
+  }
+
+  &__title{
+    font-family: Dela Gothic One;
+    font-size: 36px;
+    color: #606B47;
+  }
+
+  &__menu{
+    display: flex;
+    justify-content: right;
+  }
+
+  &__rulesWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+
+    border-radius: 50%;
+    margin-right: 24px;
+
+    background-color: #E6B030;
+  }
+
+  &__rules{
+    font-family: Dela Gothic One;
+    font-size: 48px;
+    color: #fff;
+
+    padding-bottom: 4px;
+  }
+
+  &__settings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+
+    border-radius: 50%;
+
+    background-color: #E6B030;
+  }
+
+  &__info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 120px;
+
+    height: 122px;
+
+    background-color: #fff;
+  }
+
+  &__question{
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #464646;
+  }
+
+  &__score{
+    margin-top: 16px;
+
+    font-size: 24px;
+    color: #ADADAD;
+  }
+}

@@ -3,7 +3,9 @@
     "baseUrl": ".",
     "paths": {
       "@c": [ "components" ],
-      "@l/*": [ "libs/*" ]
+      "@l/*": [ "libs/*" ],
+      "@const/*": [ "consts/*" ],
+      "~/*": [ "./*" ]
     }
   }
 }

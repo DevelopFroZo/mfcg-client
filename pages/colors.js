@@ -20,6 +20,7 @@ function Page( { socket, totalUsers } ){
 
   const checkAnswer = useCallback( answer_ => () => {
     socket.emit( "checkAnswer", answer_, state => {
+      console.log( "checkAnswer", state );
       setRightAnswers( state.rightAnswers );
       setStatus( state.status );
     } );
@@ -27,6 +28,7 @@ function Page( { socket, totalUsers } ){
 
   const onExpire = useCallback( () => {
     socket.emit( "end", state => {
+      console.log( "end", state );
       setStatus( state.status );
     } );
   }, [] );
@@ -35,6 +37,7 @@ function Page( { socket, totalUsers } ){
     if( status !== "idle" ) return;
 
     socket.emit( "generateLevel", ( data, state ) => {
+      console.log( "generateLevel", data, state );
       setData( data );
       setStatus( state.status );
     } );
@@ -44,6 +47,7 @@ function Page( { socket, totalUsers } ){
     if( status !== "initialize" ) return;
 
     socket.emit( "initialize", GAME, state => {
+      console.log( "initialize", state );
       setExpiryTimestamp( new Date( state.expiresAt * 1000 ) );
       setStatus( state.status );
     } );
