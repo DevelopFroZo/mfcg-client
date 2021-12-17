@@ -16,13 +16,14 @@ const NEXT_PUBLIC_APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 function GameTemplate( { socket, game } ){
   const { name, question } = useMemo( () => gamesSettings[ game ], [] );
   const Game = useMemo( () => games[ game ], [] );
+  const [ status, setStatus ] = useState( "initialize" );
   const [ state, setState ] = useState( {} );
-  const status = useMemo( () => state.status || "initialize", [ state ] );
   const [ data, setData ] = useState( null );
 
   const checkAnswer = useCallback( answer_ => () => {
-    socket.emit( "checkAnswer", answer_, state => {
+    socket.emit( "checkAnswer", answer_, ( status, state ) => {
       console.log( "checkAnswer", state );
+      setStatus( status );
       setState( state );
     } );
   }, [] );
@@ -35,21 +36,23 @@ function GameTemplate( { socket, game } ){
   // }, [] );
 
   useEffect( () => {
-    if( status !== "idle" ) return;
+    if( status !== "initialize" ) return;
 
-    socket.emit( "generateLevel", ( data, state ) => {
-      console.log( "generateLevel", data, state );
-      setData( data );
+    socket.emit( "initialize", game, true, ( status, state ) => {
+      console.log( "initialize", state );
+      // setExpiryTimestamp( new Date( state.expiresAt * 1000 ) );
+      setStatus( status );
       setState( state );
     } );
   }, [ status ] );
 
   useEffect( () => {
-    if( status !== "initialize" ) return;
+    if( status !== "idle" ) return;
 
-    socket.emit( "initialize", game, state => {
-      console.log( "initialize", state );
-      // setExpiryTimestamp( new Date( state.expiresAt * 1000 ) );
+    socket.emit( "generateLevel", ( data, status, state ) => {
+      console.log( "generateLevel", data, state );
+      setData( data );
+      setStatus( status );
       setState( state );
     } );
   }, [ status ] );
