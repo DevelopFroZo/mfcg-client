@@ -9,50 +9,49 @@ import logoSvg from "~/public/svg/logo.svg";
 import gearSvg from "~/public/svg/gear.svg";
 
 import { gamesSettings } from "@const/gamesSettings";
-import { games } from "@c";
+import { games, Timer } from "@c";
 
 const NEXT_PUBLIC_APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 
 function GameTemplate( { socket, game } ){
   const { name, question } = useMemo( () => gamesSettings[ game ], [] );
   const Game = useMemo( () => games[ game ], [] );
-  const [ status, setStatus ] = useState( "initialize" );
   const [ state, setState ] = useState( {} );
+  const [ expiresAt, setExpiresAt ] = useState( null );
+  const status = useMemo( () => state.status || "created", [ state ] );
   const [ data, setData ] = useState( null );
 
-  const checkAnswer = useCallback( answer_ => () => {
-    socket.emit( "checkAnswer", answer_, ( status, state ) => {
+  const restart = useCallback( isNew => () => {
+    if( status !== "created" && status !== "ended" ) return;
+
+    socket.emit( "initialize", game, isNew, state => {
+      console.log( state );
+      setState( state );
+      setExpiresAt( state.expiresAt );
+    } );
+  }, [ status ] );
+
+  const checkAnswer = useCallback( answer => () => {
+    socket.emit( "checkAnswer", answer, state => {
       console.log( "checkAnswer", state );
-      setStatus( status );
       setState( state );
     } );
   }, [] );
 
-  // const onExpire = useCallback( () => {
-  //   socket.emit( "end", state => {
-  //     console.log( "end", state );
-  //     setState( state );
-  //   } );
-  // }, [] );
-
-  useEffect( () => {
-    if( status !== "initialize" ) return;
-
-    socket.emit( "initialize", game, true, ( status, state ) => {
-      console.log( "initialize", state );
-      // setExpiryTimestamp( new Date( state.expiresAt * 1000 ) );
-      setStatus( status );
+  const end = useCallback( () => {
+    socket.emit( "end", state => {
+      console.log( "end", state );
       setState( state );
+      setData( null );
     } );
-  }, [ status ] );
+  }, [] );
 
   useEffect( () => {
     if( status !== "idle" ) return;
 
-    socket.emit( "generateLevel", ( data, status, state ) => {
+    socket.emit( "generateLevel", ( data, state ) => {
       console.log( "generateLevel", data, state );
       setData( data );
-      setStatus( status );
       setState( state );
     } );
   }, [ status ] );
@@ -86,40 +85,43 @@ function GameTemplate( { socket, game } ){
             </div>
           </div>
         </div>
-        <div className = {styles.container__info}>
-          <div className = {styles.container__question}>
-            {question}
+        {( status === "created" || status === "ended" )
+          ? <button onClick = {restart( status === "created" )}>Начать</button>
+          : <div className = {styles.container__info}>
+            <div className = {styles.container__question}>
+              {question} {expiresAt && <Timer expiresAt = {expiresAt} onExpire = {end} />}
+            </div>
+            <div className = {styles.container__score}>
+              Баллы: {state.rightAnswers || 0}
+            </div>
           </div>
-          <div className = {styles.container__score}>
-            Баллы: {state.rightAnswers || 0}
-          </div>
-        </div>
-        {data
-          ? <div style = {{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-      
-            width: "100%",
-            marginTop: "123px"
-          }}>
-            <button style = {{
-              marginRight: "32px",
+        }
+        {data &&
+          <div style = {{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+        
+              width: "100%",
+              marginTop: "123px"
+            }}>
+              <button style = {{
+                marginRight: "32px",
 
-              fontSize: "36px"
-            }} onClick = {checkAnswer( true )}>
-              Да
-            </button>
-            <Game data = {data} />
-            <button style = {{
-              marginLeft: "32px",
+                fontSize: "36px"
+              }} onClick = {checkAnswer( true )}>
+                Да
+              </button>
+              <Game data = {data} />
+              <button style = {{
+                marginLeft: "32px",
 
-              fontSize: "36px"
-            }} onClick = {checkAnswer( false )}>
-              Нет
-            </button>
+                fontSize: "36px"
+              }} onClick = {checkAnswer( false )}>
+                Нет
+              </button>
           </div>
-          : <></>}
+        }
       </div>
     </>
   );
