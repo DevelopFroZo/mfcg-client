@@ -1,0 +1,78 @@
+.game{
+  $root: &;
+
+  position: relative;
+  aspect-ratio: 1 / 1;
+
+  background: none;
+  border: none;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  &_default{
+    width: 100px;
+
+    #{$root}__test0{
+      left: 3px;
+      top: 6px;
+    }
+
+    &:active #{$root}__test1{
+      left: 3px;
+      top: 6px;
+    }
+  }
+
+  &_small{
+    width: 60px;
+
+    #{$root}__test0{
+      left: 1.8px;
+      top: 3.6px;
+    }
+
+    &:active #{$root}__test1{
+      left: 1.8px;
+      top: 3.6px;
+    }
+  }
+
+  &_good &__test0{
+    background-color: #5F7F68;
+  }
+
+  &_bad &__test0{
+    background-color: #D95C3C;
+  }
+
+  &__test0{
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    border: 2px solid #36343A;
+    border-radius: 50%;
+  }
+
+  &__test1{
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #fff;
+    border: 2px solid #36343A;
+    border-radius: 50%;
+
+    transition: .05s;
+  }
+}

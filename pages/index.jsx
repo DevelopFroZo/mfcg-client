@@ -1,46 +1,42 @@
-import { useState, useEffect } from "react";
+import Link from "next/link";
+
+import { Buttons, Container, Header } from "@c"
+
+import styles from "@st/pages/index.module.scss";
 
 function Page(){
-  const [ p, setP ] = useState( 0 );
-
-  useEffect( () => {
-    const interval = setInterval( () => {
-      setP( Math.floor( Math.random() * 91 ) + 10 );
-    }, 500 );
-
-    return () => clearInterval( interval );
-  }, [] );
-
   return (
-    <div style = {{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100vw",
-      height: "100vh"
-    }}>
-      <div style = {{
-        position: "relative",
-        width: "200px",
-        height: "10px",
-
-        backgroundColor: "rgb( 220, 220, 220 )",
-
-        borderRadius: "10px"
-      }}>
-        <div style = {{
-          position: "absolute",
-          width: `${p}%`,
-          height: "100%",
-
-          backgroundColor: "rgb( 106, 26, 151 )",
-
-          borderRadius: "10px",
-
-          transition: ".25s ease-in-out"
-        }}></div>
+    <Container className = {styles.container}>
+      <Header splitter = {false} />
+      <div className = {styles.container__center}>
+        <div className = {styles.container__title}>
+          Меню
+        </div>
+        <div className = {styles.container__menu}>
+          <Link href = "/">
+            <a>
+              <Buttons.Regular disabled>
+                Поймай центр
+              </Buttons.Regular>
+            </a>
+          </Link>
+          <Link href = "/">
+            <a>
+              <Buttons.Regular disabled>
+                Сравни цвета
+              </Buttons.Regular>
+            </a>
+          </Link>
+          <Link href = "/games/colors">
+            <a>
+              <Buttons.Regular>
+                Тот же самый
+              </Buttons.Regular>
+            </a>
+          </Link>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

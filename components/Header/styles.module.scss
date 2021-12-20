@@ -1,0 +1,40 @@
+.header{
+  padding: 20px 120px 0px 120px;
+
+  height: 110px;
+
+  &__wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 16px;
+
+    > div{
+      width: 100%;
+    }
+
+    &_splitter{
+      border-bottom: 1px solid #ADADAD;
+    }
+  }
+
+  &__title{
+    font-family: Dela Gothic One;
+    font-size: 36px;
+
+    color: #606B47;
+
+    text-align: center;
+  }
+
+  &__menu{
+    display: flex;
+    justify-content: right;
+    gap: 24px;
+  }
+
+  &__icon svg path{
+    fill: #fff;
+  }
+}

@@ -1,0 +1,30 @@
+.container{
+  display: flex;
+  flex-direction: column;
+
+  background-color: #5F7F68;
+
+  &__center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 160px;
+  }
+
+  &__title{
+    font-family: Dela Gothic One;
+    font-size: 64px;
+
+    color: #fff;
+  }
+
+  &__menu{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    margin-top: 37px;
+  }
+}

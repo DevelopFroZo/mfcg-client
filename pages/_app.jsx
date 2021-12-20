@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 import "../styles/globals.scss";
+import "react-circular-progressbar/dist/styles.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,7 +21,13 @@ function MyApp( { Component, pageProps } ){
     return () => socket_.disconnect();
   }, [] );
 
-  return socket ? <Component socket = {socket} totalUsers = {totalUsers} {...pageProps} /> : <></>;
+  return socket
+    ? <Component
+        socket = {socket}
+        totalUsers = {totalUsers}
+        {...pageProps}
+      />
+    : <></>;
 }
 
 export default MyApp;

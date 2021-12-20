@@ -2,10 +2,27 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@c": [ "components" ],
+      // Libs
       "@l/*": [ "libs/*" ],
+      
+      // Utils
+      "@u": [ "utils" ],
       "@const/*": [ "consts/*" ],
-      "~/*": [ "./*" ]
+
+      // Data
+      // "@se/*": [ "services/*" ],
+      // "@r/*": [ "repositories/*" ],
+
+      // UI
+      "@c": [ "components" ],
+      // "@pc/*": [ "pagesComponents/*" ],
+      "@st/*": [ "styles/*" ],
+
+      // React
+      "@h": [ "hooks" ],
+      // "@ctx": [ "contexts" ],
+
+      "~/*": [ "*" ]
     }
   }
 }
