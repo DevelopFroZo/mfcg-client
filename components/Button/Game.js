@@ -1,21 +1,22 @@
+import { isMobile } from "react-device-detect";
+
 import { useStyles } from "@h";
 
-import { SvgIcon } from "../SvgIcon"
+import { Svg } from ".."
 
+import GameSvg from "~/public/svg/icons/game.svg";
 import styles from "./styles/game.module.scss";
 
 function Game( {
   className,
-  small = false,
   bad = false,
   ...props
 } ){
   const classGame = useStyles( [
     styles.game,
-    small ? styles.game_small : styles.game_default,
     bad ? styles.game_bad : styles.game_good,
     className
-  ], [ className, small, bad ] );
+  ], [ className, bad ] );
 
   return (
     <button
@@ -24,7 +25,10 @@ function Game( {
     >
       <div className = {styles.game__test0} />
       <div className = {styles.game__test1}>
-        <SvgIcon name = {small ? "gameSmall" : "gameDefault"} />
+        <Svg.Regular
+          Component = {GameSvg}
+          scale = {isMobile ? .5 : 1}
+        />
       </div>
     </button>
   );

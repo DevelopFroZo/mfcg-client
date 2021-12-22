@@ -1,3 +1,5 @@
+@import "@st/mixins";
+
 .regular{
   display: inline-flex;
   flex-direction: row;
@@ -11,7 +13,6 @@
   color: #fff;
 
   font-family: inherit;
-  font-size: 20px;
 
   transition: .25s;
 
@@ -52,5 +53,17 @@
     display: inline-flex;
 
     margin-left: 12px;
+  }
+}
+
+@include desktop-bp{
+  .regular{
+    font-size: 20px;
+  }
+}
+
+@include mobile-bp{
+  .regular{
+    padding: 8px 16px;
   }
 }

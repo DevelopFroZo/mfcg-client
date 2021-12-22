@@ -1,0 +1,17 @@
+@import "@st/mixins";
+
+.text{
+  font-weight: 700;
+}
+
+@include desktop-bp{
+  .text{
+    font-size: 48px;
+  }
+}
+
+@include mobile-bp{
+  .text{
+    font-size: 25px;
+  }
+}

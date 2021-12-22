@@ -1,6 +1,16 @@
+@import "@st/mixins";
+
 .circle{
-  aspect-ratio: 1 / 1;
-  padding: 0px;
   width: calc( 32px + 1em );
+  height: calc( 32px + 1em );
+
+  padding: 16px;
   border-radius: 50%;
+}
+
+@include mobile-bp{
+  .circle{
+    width: 1em;
+    height: 1em;
+  }
 }

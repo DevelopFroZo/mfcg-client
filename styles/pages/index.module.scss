@@ -1,3 +1,5 @@
+@import "@st/mixins";
+
 .container{
   display: flex;
   flex-direction: column;
@@ -5,12 +7,13 @@
   background-color: #5F7F68;
 
   &__center{
+    width: 100%;
+    height: 100%;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    margin-top: 160px;
   }
 
   &__title{
@@ -26,5 +29,13 @@
     gap: 32px;
 
     margin-top: 37px;
+  }
+}
+
+@include mobile-bp{
+  .container{
+    &__title{
+      font-size: 48px;
+    }
   }
 }

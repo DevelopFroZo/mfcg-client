@@ -1,7 +1,7 @@
+@import "@st/mixins";
+
 .header{
   padding: 20px 120px 0px 120px;
-
-  height: 110px;
 
   &__wrapper{
     display: flex;
@@ -12,10 +12,6 @@
 
     > div{
       width: 100%;
-    }
-
-    &_splitter{
-      border-bottom: 1px solid #ADADAD;
     }
   }
 
@@ -30,11 +26,33 @@
 
   &__menu{
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     gap: 24px;
   }
 
-  &__icon svg path{
+  &__icon path{
     fill: #fff;
+  }
+}
+
+@include desktop-bp{
+  .header{
+    height: 110px;
+
+    &__wrapper{
+      &_splitter{
+        border-bottom: 1px solid #ADADAD;
+      }
+    }
+  }
+}
+
+@include mobile-bp{
+  .header{
+    padding: 8px 10px 0px 10px;
+
+    &__title{
+      font-size: 20px;
+    }
   }
 }

@@ -1,3 +1,5 @@
+@import "@st/mixins";
+
 .container{
   display: flex;
 
@@ -6,16 +8,30 @@
     justify-content: center;
     align-items: center;
 
-    aspect-ratio: 1 / 1;
     width: 295px;
+    height: 295px;
 
     transition: .25s;
   }
 
   &__innerRect{
-    aspect-ratio: 1 / 1;
     width: 55px;
+    height: 55px;
 
     transition: .25s;
+  }
+}
+
+@include mobile-bp{
+  .container{
+    &__outerRect{
+      width: 150px;
+      height: 150px;
+    }
+
+    &__innerRect{
+      width: 54px;
+      height: 54px;
+    }
   }
 }

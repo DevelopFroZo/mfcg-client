@@ -1,0 +1,37 @@
+@import "@st/mixins";
+
+.control{
+  display: flex;
+  justify-content: space-between;
+
+  &__button{
+    display: flex;
+    align-items: center;
+  
+    gap: 30px;
+  }
+
+  &__text{
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+@include desktop-bp{
+  .control{
+    flex-direction: column;
+
+    padding: 20px 0px;
+  }
+}
+
+@include mobile-bp{
+  .control{
+    justify-content: space-around;
+
+    &__button{
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}

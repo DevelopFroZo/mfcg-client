@@ -5,7 +5,7 @@ import { useTimer } from "react-timer-hook";
 
 import styles from "./styles.module.scss";
 
-function Timer( { expiresAt, onExpire } ){
+function Circle( { expiresAt, onExpire } ){
   const delta = useMemo( () => expiresAt - Math.floor( Date.now() / 1000 ), [ expiresAt ] );
   const expiresIn = useMemo( () => new Date( expiresAt * 1000 ), [ expiresAt ] );
   const { seconds, minutes, restart } = useTimer( { autoStart: false, onExpire } );
@@ -32,4 +32,4 @@ function Timer( { expiresAt, onExpire } ){
   );
 }
 
-export { Timer };
+export { Circle };
