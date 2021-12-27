@@ -1,0 +1,35 @@
+@import "@st/mixins";
+
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__line{
+    display: flex;
+    gap: 20px;
+  }
+
+  &__rect{
+    width: 285px;
+    height: 200px;
+
+    border: none;
+    border-radius: 16px;
+
+    transition: .25s;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+@include mobile-bp{
+  .container{
+    &__rect{
+      width: 145px;
+      height: 80px;
+    }
+  }
+}

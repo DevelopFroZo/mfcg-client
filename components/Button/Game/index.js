@@ -1,22 +1,29 @@
+import { useMemo } from "react";
 import { isMobile } from "react-device-detect";
 
 import { useStyles } from "@h";
 
-import { Svg } from ".."
+import { Svg } from "../.."
 
 import GameSvg from "~/public/svg/icons/game.svg";
-import styles from "./styles/game.module.scss";
+import styles from "./styles.module.scss";
 
 function Game( {
   className,
+  smallClassName,
   bad = false,
+  small = false,
+  noAutoSmall = false,
   ...props
 } ){
+  const isSmall = useMemo( () => small || isMobile && !noAutoSmall, [ small, noAutoSmall ] );
+
   const classGame = useStyles( [
     styles.game,
     bad ? styles.game_bad : styles.game_good,
+    isSmall && ( smallClassName || styles.game_small ),
     className
-  ], [ className, bad ] );
+  ], [ className, bad, small, noAutoSmall ] );
 
   return (
     <button
@@ -27,7 +34,7 @@ function Game( {
       <div className = {styles.game__test1}>
         <Svg.Regular
           Component = {GameSvg}
-          scale = {isMobile ? .5 : 1}
+          scale = {isSmall ? .5 : 1}
         />
       </div>
     </button>

@@ -20,6 +20,7 @@
 @include desktop-bp{
   .control{
     flex-direction: column;
+    height: 100%;
 
     padding: 20px 0px;
   }

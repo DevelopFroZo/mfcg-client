@@ -30,6 +30,10 @@
 
     margin-top: 37px;
   }
+
+  &__button{
+    font-size: 31px;
+  }
 }
 
 @include mobile-bp{

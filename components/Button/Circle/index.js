@@ -1,8 +1,8 @@
-import { Regular } from "./Regular";
+import { Regular } from "../Regular";
 
 import { useStyles } from "@h";
 
-import styles from "./styles/circle.module.scss";
+import styles from "./styles.module.scss";
 
 function Circle( { className, ...props } ){
   const stylesCircle = useStyles( [ styles.circle, className ], [ className ] );
@@ -10,6 +10,7 @@ function Circle( { className, ...props } ){
   return (
     <Regular
       className = {stylesCircle}
+      smallClassName = {styles.circle_small}
       {...props}
     />
   )

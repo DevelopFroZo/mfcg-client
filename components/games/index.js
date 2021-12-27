@@ -1,9 +1,11 @@
-import { Colors } from "./Colors";
 import { Center } from "./Center";
+import { CompareColors } from "./CompareColors";
+import { Colors } from "./Colors";
 
 const games = {
-  colors: Colors,
-  center: Center
+  center: Center,
+  compare_colors: CompareColors,
+  colors: Colors
 };
 
 export { games };

@@ -52,7 +52,10 @@ function Header( {
           </div>
           <div className = {styles.header__menu}>
             {menu && <>
-              <Buttons.Circle className = {styles.header__icon}>
+              <Buttons.Circle
+                className = {styles.header__icon}
+                withIcons
+              >
                 <Svg.Project name = "question" />
               </Buttons.Circle>
               {/* <Buttons.Circle>

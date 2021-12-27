@@ -25,6 +25,14 @@
     justify-content: center;
   }
 
+  &__time{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-weight: 700;
+  }
+
   &__totalUsers{
     display: flex;
     justify-content: center;
@@ -68,6 +76,11 @@
   &__timer{
     width: 196px;
     height: 196px;
+  }
+
+  &__wrapper{
+    display: flex;
+    justify-content: center;
   }
 }
 

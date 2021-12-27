@@ -1,0 +1,10 @@
+.circle{
+  padding: 16px;
+  border-radius: 50%;
+
+  &_small{
+    font-size: 16px;
+
+    padding: 6px;
+  }
+}

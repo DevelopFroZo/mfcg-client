@@ -18,6 +18,7 @@ function Regular( {
   accuracy,
   accuracyWidth,
   accuracyHeight,
+  wrapperProps = {},
   ...props
 } ){
   const svgRef = useRef( null );
@@ -72,6 +73,7 @@ function Regular( {
     <div
       className = {joinStyles( styles.svgWrapper, className )}
       ref = {svgRef}
+      {...wrapperProps}
     >
       <Component {...props} />
     </div>

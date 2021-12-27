@@ -22,6 +22,7 @@ function Page( { socket, totalUsers } ){
   const { name, question } = useMemo( () => game ? gamesSettings[ game ] : {}, [ game ] );
   const Game = useMemo( () => game && games[ game ], [ game ] );
   const [ Controls, setControls ] = useState( null );
+  const [ initialState, setInitialState ] = useState( {} );
   const [ state, setState ] = useState( {} );
   const status = useMemo( () => state.status || "created", [ state ] );
   const [ data, setData ] = useState( null );
@@ -30,12 +31,13 @@ function Page( { socket, totalUsers } ){
   const restart = useCallback( isNew => () => {
     if( !isGameReady || status !== "created" && status !== "ended" ) return;
 
-    socket.emit( "initialize", game, isNew, ( controls_, state ) => {
-      console.log( "initialize", state );
+    socket.emit( "initialize", game, isNew, ( initialState, state ) => {
+      console.log( "initialize", initialState, state );
+      setInitialState( initialState );
       setState( state );
 
-      if( isNew && controls_ ){
-        setControls( () => controls[ controls_ ] );
+      if( isNew && initialState.controls ){
+        setControls( () => controls[ initialState.controls ] );
       }
     } );
   }, [ isGameReady, status ] );
@@ -51,18 +53,20 @@ function Page( { socket, totalUsers } ){
     socket.emit( "end", state => {
       console.log( "end", state );
       setState( state );
-      setData( null );
     } );
   }, [] );
 
   useEffect( () => {
-    if( status !== "idle" ) return;
-
-    socket.emit( "generateLevel", ( data, state ) => {
-      console.log( "generateLevel", data, state );
-      setData( data );
-      setState( state );
-    } );
+    if( status === "idle" ){
+      socket.emit( "generateLevel", ( data, state ) => {
+        console.log( "generateLevel", data, state );
+        setData( data );
+        setState( state );
+      } );
+    }
+    else if( status === "ended" ){
+      setData( null );
+    }
   }, [ status ] );
 
   useEffect( () => {
@@ -85,26 +89,21 @@ function Page( { socket, totalUsers } ){
               <div className = {styles.score__left}>
                 {state.score || 0}
               </div>
-              {state.totalScore && <>
+              {initialState.totalScore && <>
                 <div className = {styles.score__left}>
                   /
                 </div>
                 <div className = {styles.score__right}>
-                  {state.totalScore}
+                  {initialState.totalScore}
                 </div>
               </>}
             </div>
           </div>
-          {state.expiresAt &&
-            <MobileView style = {{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              fontWeight: 700
-            }}>
+          {initialState.expiresAt &&
+            <MobileView className = {styles.container__time}>
               <div>Время</div>
               <Timers.Simple
-                expiresAt = {state.expiresAt}
+                expiresAt = {initialState.expiresAt}
                 onExpire = {end}
               />
             </MobileView>
@@ -112,26 +111,25 @@ function Page( { socket, totalUsers } ){
         </div>
         <div className = {styles.game}>
           <BrowserView className = {styles.game__timerWrapper}>
-            <div className = {styles.game__timer}>
-              {state.expiresAt &&
-                <Timers.Circle
-                  expiresAt = {state.expiresAt}
-                  onExpire = {end}
-                />
-              }
+          {initialState.expiresAt &&
+            <div className = {styles.game__timer}>  
+              <Timers.Circle
+                expiresAt = {initialState.expiresAt}
+                onExpire = {end}
+              />
             </div>
+          }
           </BrowserView>
-          <div style = {{
-            display: "flex",
-            justifyContent: "center"
-          }}>
+          <div className = {styles.game__wrapper}>
             <Game
               data = {data}
               ready = {() => setIsGameReady( true )}
               checkAnswer = {checkAnswer}
             />
           </div>
-          {Controls && isBrowser && <Controls checkAnswer = {checkAnswer} />}
+          <BrowserView>
+            {Controls && <Controls checkAnswer = {checkAnswer} />}
+          </BrowserView>
         </div>
         {Controls && isMobile && <Controls checkAnswer = {checkAnswer} />}
       </div>
