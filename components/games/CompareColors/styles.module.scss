@@ -25,6 +25,15 @@
   }
 }
 
+@media only screen and ( max-height: 900px ){
+  .container{
+    &__rect{
+      width: 235px;
+      height: 150px;
+    }
+  }
+}
+
 @include mobile-bp{
   .container{
     &__rect{

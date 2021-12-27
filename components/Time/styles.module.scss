@@ -1,0 +1,17 @@
+@import "@st/mixins";
+
+.time{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: Dela Gothic One;
+}
+
+@include mobile-bp{
+  .time{
+    &__text{
+      font-size: 13px;
+    }
+  }
+}

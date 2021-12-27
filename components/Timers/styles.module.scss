@@ -1,12 +1,12 @@
 @import "@st/mixins";
 
 .text{
-  font-weight: 700;
+  font-family: Dela Gothic One;
 }
 
 @include desktop-bp{
   .text{
-    font-size: 48px;
+    font-size: 36px;
   }
 }
 

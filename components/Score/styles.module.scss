@@ -1,0 +1,38 @@
+@import "@st/mixins";
+
+.score{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: Dela Gothic One;
+
+  &__wrapper{
+    display: flex;
+    align-items: baseline;
+  }
+}
+
+@include desktop-bp{
+  .score{
+    &__left{
+      font-size: 48px;
+    }
+  
+    &__right{
+      font-size: 24px;
+    }
+  }
+}
+
+@include mobile-bp{
+  .score{
+    &__title{
+      font-size: 13px;
+    }
+
+    &__left{
+      font-size: 25px;
+    }
+  }
+}

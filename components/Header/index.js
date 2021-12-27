@@ -15,6 +15,7 @@ import styles from "./styles.module.scss";
 const NEXT_PUBLIC_APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 
 function Header( {
+  titleClassName,
   title,
   menu,
   splitter = true
@@ -23,6 +24,11 @@ function Header( {
     styles.header__wrapper,
     splitter && styles.header__wrapper_splitter
   ], [ splitter ] );
+
+  const classTitle = useStyles( [
+    styles.header__title,
+    titleClassName
+  ], [ titleClassName ] );
 
   return (
     <>
@@ -47,7 +53,7 @@ function Header( {
               </a>
             </Link>
           </div>
-          <div className = {styles.header__title}>
+          <div className = {classTitle}>
             {isBrowser && title && title}
           </div>
           <div className = {styles.header__menu}>
@@ -67,7 +73,7 @@ function Header( {
             </>}
           </div>
         </div>
-        <MobileView className = {styles.header__title}>
+        <MobileView className = {classTitle}>
           {title}
         </MobileView>
       </div>

@@ -1,11 +1,15 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
+import { BrowserView, isMobile } from "react-device-detect";
 
 import {
   Container,
   Header,
   Timers,
+  Score,
+  Time,
+  Overlays,
+  AfterGame,
 
   games,
   controls
@@ -26,6 +30,7 @@ function Page( { socket, totalUsers } ){
   const [ state, setState ] = useState( {} );
   const status = useMemo( () => state.status || "created", [ state ] );
   const [ data, setData ] = useState( null );
+  const [ totalSeconds, setTotalSeconds ] = useState( 0 );
   const [ isGameReady, setIsGameReady ] = useState( false );
 
   const restart = useCallback( isNew => () => {
@@ -50,8 +55,9 @@ function Page( { socket, totalUsers } ){
   }, [] );
 
   const end = useCallback( () => {
-    socket.emit( "end", state => {
-      console.log( "end", state );
+    socket.emit( "end", ( totalSeconds, state ) => {
+      console.log( "end", totalSeconds, state );
+      setTotalSeconds( totalSeconds );
       setState( state );
     } );
   }, [] );
@@ -63,6 +69,9 @@ function Page( { socket, totalUsers } ){
         setData( data );
         setState( state );
       } );
+    }
+    else if( status === "failed" ){
+      end();
     }
     else if( status === "ended" ){
       setData( null );
@@ -77,36 +86,32 @@ function Page( { socket, totalUsers } ){
 
   return ( game
     ? <Container className = {styles.container}>
+      <Overlays.Regular hidden = {status !== "ended"}>
+        <AfterGame
+          title = {name}
+          score = {state.score || 0}
+          totalScore = {initialState.totalScore}
+          time = {totalSeconds}
+          onRestart = {restart( false )}
+        />
+      </Overlays.Regular>
       <Header title = {name} menu />
       <div className = {styles.container__question}>
         {question}
       </div>
       <div className = {styles.container__gameWrapper}>
         <div className = {styles.container__scoreAndTime}>
-          <div className = {styles.score}>
-            <div>Баллы</div>
-            <div className = {styles.score__wrapper}>
-              <div className = {styles.score__left}>
-                {state.score || 0}
-              </div>
-              {initialState.totalScore && <>
-                <div className = {styles.score__left}>
-                  /
-                </div>
-                <div className = {styles.score__right}>
-                  {initialState.totalScore}
-                </div>
-              </>}
-            </div>
-          </div>
-          {initialState.expiresAt &&
-            <MobileView className = {styles.container__time}>
-              <div>Время</div>
+          <Score
+            score = {state.score || 0}
+            total = {initialState.totalScore}
+          />
+          {initialState.expiresAt && isMobile &&
+            <Time value = {
               <Timers.Simple
                 expiresAt = {initialState.expiresAt}
                 onExpire = {end}
               />
-            </MobileView>
+            } />
           }
         </div>
         <div className = {styles.game}>
