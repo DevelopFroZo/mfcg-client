@@ -12,7 +12,8 @@ import {
   AfterGame,
 
   games,
-  controls
+  controls,
+  BeforeGame
 } from "@c";
 
 import { gamesSettings } from "@const/gamesSettings";
@@ -22,16 +23,17 @@ import styles from "@st/pages/games/game.module.scss";
 function Page( { socket, totalUsers } ){
   const router = useRouter();
 
-  const game = useMemo( () => router.query.game, [ router ] );
-  const { name, question } = useMemo( () => game ? gamesSettings[ game ] : {}, [ game ] );
-  const Game = useMemo( () => game && games[ game ], [ game ] );
   const [ Controls, setControls ] = useState( null );
   const [ initialState, setInitialState ] = useState( {} );
   const [ state, setState ] = useState( {} );
-  const status = useMemo( () => state.status || "created", [ state ] );
   const [ data, setData ] = useState( null );
   const [ totalSeconds, setTotalSeconds ] = useState( 0 );
   const [ isGameReady, setIsGameReady ] = useState( false );
+
+  const game = useMemo( () => router.query.game, [ router ] );
+  const { name, question, rules } = useMemo( () => game ? gamesSettings[ game ] : {}, [ game ] );
+  const Game = useMemo( () => game && games[ game ], [ game ] );
+  const status = useMemo( () => state.status || "created", [ state ] );
 
   const restart = useCallback( isNew => () => {
     if( !isGameReady || status !== "created" && status !== "ended" ) return;
@@ -48,19 +50,23 @@ function Page( { socket, totalUsers } ){
   }, [ isGameReady, status ] );
 
   const checkAnswer = useCallback( answer => () => {
+    if( status !== "generated" ) return;
+
     socket.emit( "checkAnswer", answer, state => {
       console.log( "checkAnswer", state );
       setState( state );
     } );
-  }, [] );
+  }, [ status ] );
 
   const end = useCallback( () => {
+    if( status === "ended" ) return;
+
     socket.emit( "end", ( totalSeconds, state ) => {
       console.log( "end", totalSeconds, state );
       setTotalSeconds( totalSeconds );
       setState( state );
     } );
-  }, [] );
+  }, [ status ] );
 
   useEffect( () => {
     if( status === "idle" ){
@@ -78,16 +84,16 @@ function Page( { socket, totalUsers } ){
     }
   }, [ status ] );
 
-  useEffect( () => {
-    if( !isGameReady || status !== "created" ) return;
-
-    restart( true )();
-  }, [ isGameReady, status ] );
-
   return ( game
     ? <Container className = {styles.container}>
-      <Overlays.Regular hidden = {status !== "ended"}>
+      <Overlays.Regular hidden = {status !== "created" && status !== "ended"}>
+        <BeforeGame
+          hidden = {status !== "created"}
+          {...rules}
+          onStart = {restart( true )}
+        />
         <AfterGame
+          hidden = {status !== "ended"}
           title = {name}
           score = {state.score || 0}
           totalScore = {initialState.totalScore}

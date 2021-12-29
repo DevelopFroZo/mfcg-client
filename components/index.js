@@ -8,6 +8,7 @@ export { Header } from "./Header";
 
 export { Score } from "./Score";
 export { Time } from "./Time";
+export { BeforeGame } from "./BeforeGame";
 export { AfterGame } from "./AfterGame";
 export { games } from "./games";
 export { controls } from "./controls";

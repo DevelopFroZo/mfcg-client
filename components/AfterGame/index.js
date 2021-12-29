@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import Link from "next/link";
 
 import {
@@ -9,17 +8,25 @@ import {
   Buttons
 } from "..";
 
+import { useStyles } from "@h";
+
 import styles from "./styles.module.scss";
 
 function AfterGame( {
+  hidden,
   title,
   score,
   totalScore,
   time,
   onRestart
 } ){
+  const classContainer = useStyles( [
+    styles.container,
+    hidden && styles.container_hidden
+  ], [ hidden ] );
+
   return (
-    <div className = {styles.container}>
+    <div className = {classContainer}>
       <Header
         titleClassName = {styles.container__title}
         title = {title}
